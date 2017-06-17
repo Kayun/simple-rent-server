@@ -1,0 +1,6 @@
+FROM app:base
+
+ADD src/ /home/app/server/src/
+ADD webpack.config.js /home/app/server/webpack.config.js
+ADD tsconfig.json /home/app/server/tsconfig.json
+RUN npm run build

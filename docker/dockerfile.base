@@ -1,0 +1,8 @@
+FROM node:7.10.0
+
+ADD package.json /tmp/package.json
+RUN cd /tmp && yarn install
+RUN mkdir -p /home/app && cp -a /tmp/node_modules /home/app/server/
+
+ADD package.json /home/app/server/package.json
+WORKDIR /home/app/server

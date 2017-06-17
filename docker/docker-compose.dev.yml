@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  nginx:
+    extends:
+      file: ./docker-compose.base.yml
+      service: nginx
+
+  backend:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.dev
+    image: app:dev
+    container_name: dev.backend
+    ports:
+      - "9229:9229"
+    environment:
+      - NODE_ENV=development
+      - NODE_DEBUG=true
+    volumes:
+      - "../:/home/app/server"
+    entrypoint: ["npm", "run", "container:dev"]

@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+
+  nginx:
+    image: nginx:1.11.13
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - "../config/nginx.conf:/etc/nginx/nginx.conf"
+      - "../../client/public/:/home/app/public/"
+      - "../data/logs/nginx/:/var/log/nginx"
+
+  mongo:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.mongo
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    volumes:
+      - "../data/mongo/:/var/lib/mongodb/"
+
+  backend:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.base
+    image: app:base
+    links:
+      - mongo
+    expose:
+      - "3000"
+    entrypoint: ["npm", "start"]

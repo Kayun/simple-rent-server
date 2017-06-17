@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  nginx:
+    extends:
+      file: ./docker/docker-compose.dev.yml
+      service: nginx
+    links:
+      - backend
+
+  mongo:
+    extends:
+      file: ./docker/docker-compose.base.yml
+      service: mongo
+
+  backend:
+    extends:
+      file: ./docker/docker-compose.dev.yml
+      service: backend

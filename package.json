@@ -1,0 +1,53 @@
+{
+  "name": "simple-rent-server",
+  "version": "1.0.0",
+  "author": "Kayun Artyom <kayun.artem@gmail.com>",
+  "scripts": {
+    "container:dev": "nodemon -L --inspect=9229 ./dist/server.js",
+    "host:dev": "webpack --watch",
+    "lint": "tslint ./app/**/*.ts",
+    "start": "node ./dist/server.js",
+    "build": "webpack"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "config": "^1.26.1",
+    "fs": "~0.0.1-security",
+    "http": "~0.0.0",
+    "inversify": "~4.1.1",
+    "koa": "~2.2.0",
+    "koa-bodyparser": "~4.2.0",
+    "koa-logger": "~3.0.0",
+    "koa-passport": "~3.0.0",
+    "koa-router": "~7.2.0",
+    "koa-session": "~5.1.0",
+    "mongoose": "~4.10.3",
+    "mz": "~2.6.0",
+    "nodemon": "^1.11.0",
+    "path": "~0.12.7",
+    "reflect-metadata": "~0.1.10",
+    "winston": "~2.3.1"
+  },
+  "devDependencies": {
+    "@types/config": "^0.0.32",
+    "@types/koa": "^2.0.39",
+    "@types/koa-bodyparser": "^3.0.23",
+    "@types/koa-logger": "^2.0.2",
+    "@types/koa-passport": "^2.0.4",
+    "@types/koa-router": "^7.0.22",
+    "@types/mongoose": "^4.7.13",
+    "@types/mz": "^0.0.31",
+    "@types/node": "^7.0.12",
+    "@types/winston": "^2.3.2",
+    "awesome-typescript-loader": "^3.1.2",
+    "clean-webpack-plugin": "^0.1.16",
+    "pre-commit": "^1.2.2",
+    "tslint": "^4.5.1",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.3",
+    "webpack-node-externals": "^1.5.4"
+  },
+  "license": "MIT"
+}
