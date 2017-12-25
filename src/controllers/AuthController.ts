@@ -5,6 +5,7 @@ import * as passport from 'koa-passport';
 import { method } from 'decorators';
 import { IRoutable, IUserConstructor, IUser, IStaticResponsible, ILogger } from 'interfaces';
 import { FACTORY_USER_CONSTRUCTOR_TYPE, RESPONSE_CONSTRUCTOR_TYPE, LOGGER_TYPE } from 'types';
+import { USER_COOKIE } from 'types/constants';
 
 import { Controller } from 'classes';
 
@@ -26,17 +27,30 @@ export class AuthController extends Controller {
   public async login<Middleware>(context: Context, next: Function): Promise<void> {
     let { email, password } = context.request.body;
 
-    let authenticate = passport.authenticate('local', (error: any, user: any, info: any) => {
+    if (!email) {
+      context.body = this.Response.error({ email: 'Обязательное поле' });
+      context.status = 401;
+      return;
+    }
+
+    if (!password) {
+      context.body = this.Response.error({ password: 'Обязательное поле' });
+      context.status = 401;
+      return;
+    }
+
+    let authenticate = passport.authenticate('local', async (error: any, user: any, info: any) => {
       if (error) {
         this.logger.log('error', error);
         throw error;
       } else if (user === false || user === undefined) {
-        context.body = this.Response.error({ login: info });
+        context.body = this.Response.error({ login: info.message });
         context.status = 401;
       } else {
         context.body = this.Response.success(user.toObject());
-        context.login(user);
         context.sessionHandler.regenerateId();
+        context.cookies.set(USER_COOKIE, user.get('id'), { httpOnly: false });
+        await context.login(user);
       }
     })
 
@@ -47,11 +61,17 @@ export class AuthController extends Controller {
   public logout<Middleware>(context: Context): void {
     try {
       context.logout();
-      context.session = null;
+      context.session.passport = null;
+      context.cookies.set(USER_COOKIE, null);
       context.body = this.Response.success();
     } catch (error) {
       context.body = this.Response.error(error.message);
       context.status = 500;
     }
+  }
+
+  @method('get', '/key')
+  public getApiKey<Middleware>(context: Context): void {
+    context.body = this.Response.success({ key: context.csrf });
   }
 }

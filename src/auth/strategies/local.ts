@@ -13,7 +13,7 @@ export let localStrategy = (db: Connection): any => {
       if (user && user.checkPassword(password)) {
         done(null, user);
       } else {
-        done(null, false, 'Неверый логин или пароль');
+        done(null, false, { message: 'Неверый логин или пароль' });
       }
     } catch (error) {
       done(error);

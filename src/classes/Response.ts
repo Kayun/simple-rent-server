@@ -6,20 +6,14 @@ import { SERVER_RESPONSE_TYPE } from 'types';
 export class Response {
   static error(error: any): SERVER_RESPONSE_TYPE {
     return {
-      version: '1',
-      error: error,
-      result: '1'
+      success: false,
+      error: error
     }
   }
-  static success(): SERVER_RESPONSE_TYPE {
+  static success(data: any = null): SERVER_RESPONSE_TYPE {
     return {
-      version: '1',
-      error: null,
-      result: '1'
+      success: true,
+      data: data
     }
-  }
-
-  constructor() {
-
   }
 }

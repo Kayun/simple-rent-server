@@ -34,8 +34,8 @@ export class Validator implements IValidator {
     return query.length >= minLength ? null : errorMessage;
   }
 
-  private email(query: string): string {
+  private email(query: string, errorMessage = 'Некорректный адрес электронной почты.'): string {
     let emailRegex = this.config.get<RegExp>('validators.email')
-    return emailRegex.test(query) ? null : 'Некорректный адрес электронной почты.'
+    return emailRegex.test(query) ? null : errorMessage;
   }
 }

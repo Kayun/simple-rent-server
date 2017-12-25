@@ -10,6 +10,8 @@ import { Response } from './Response';
 import { DataBase } from './DataBase';
 import { Router } from './Router';
 import { Controller } from './Controller';
+import { Validator } from './Validator';
+import { Helper } from './Helper';
 
 let classesContainer = new ContainerModule((bind: interfaces.Bind, unbind: interfaces.Unbind) => {
 
@@ -27,6 +29,15 @@ let classesContainer = new ContainerModule((bind: interfaces.Bind, unbind: inter
 
 // Router class
   bind<AppInterfaces.IRouter>(APP_TYPES.ROUTER_TYPE).to(Router).inSingletonScope();
+
+// Validator class
+  bind<AppInterfaces.IValidator>(APP_TYPES.VALIDATOR_TYPE).to(Validator).inSingletonScope();
+
+// Response static class
+  bind<interfaces.Newable<AppInterfaces.IStaticResponsible>>(APP_TYPES.RESPONSE_CONSTRUCTOR_TYPE).toConstructor(Response);
+
+// Helper static class
+  bind<interfaces.Newable<AppInterfaces.IHelperConstructor>>(APP_TYPES.HELPER_CONSTRUCTOR_TYPE).toConstructor(Helper);
 });
 
 export {
@@ -36,7 +47,9 @@ export {
   Response,
   DataBase,
   Router,
-  Controller
+  Controller,
+  Validator,
+  Helper
 };
 
 export default classesContainer;

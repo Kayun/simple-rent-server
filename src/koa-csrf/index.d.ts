@@ -1,5 +1,11 @@
 import * as Koa from 'koa';
-import ICsrfConstructor = CSRF.ICsrfConstructor;
+
+
+declare module 'koa' {
+  interface Context {
+    csrf: string;
+  }
+}
 
 declare namespace CSRF {
 
@@ -22,6 +28,6 @@ declare namespace CSRF {
 }
 
 
-declare var CSRF: ICsrfConstructor;
+declare var CSRF: CSRF.ICsrfConstructor;
 
 export default CSRF;

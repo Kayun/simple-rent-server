@@ -22,26 +22,38 @@ export interface IRouter {
 }
 
 export interface IDataBase {
+  types: any
   connect(): void
   getDb(): Connection
 }
 
+export interface IValidator {
+  valid(query: string, validators: any[][]): {isValid: boolean, errors: Object}
+}
+
 export interface IUser extends Document {
-  test(): void
+  toCommonObject(): any
+  checkPassword(password: string): boolean
 }
 
 export interface IUserConstructor extends Model<IUser> {
   checkUser(email: string): Promise<boolean>
+  isPasswordValid(password: string): any
   new(): IUser
+}
+
+export interface IHelperConstructor {
+  hasAuth<Middleware>(context: Koa.Context, next: Function): Promise<void>
+  new(): any
 }
 
 export interface IRoutable {
   bindRoutes(router: Router): void
 }
 
-export interface IStaticResponsible<C extends new () => C> {
+export interface IStaticResponsible {
   error(error: any): SERVER_RESPONSE_TYPE
-  success(data: any): SERVER_RESPONSE_TYPE
+  success(data?: any): SERVER_RESPONSE_TYPE
   new(): any
 }
 

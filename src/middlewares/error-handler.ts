@@ -9,8 +9,10 @@ const errorHandle = async <Middleware>(context: Context, next: any) => {
     let body: SERVER_RESPONSE_TYPE;
 
     if (error.status) {
+      let { message, ...properties } = error;
+
       context.response.status = error.status;
-      body = Response.error(error.message);
+      body = Response.error({ message, properties });
     } else {
       context.response.status = 500;
       body = Response.error('Internal Server Error');

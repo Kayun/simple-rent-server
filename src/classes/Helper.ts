@@ -7,8 +7,7 @@ export class Helper {
     if (context.isAuthenticated()) {
       await next();
     } else {
-      context.status = 401;
-      context.body = Response.error(context.message);
+      context.throw(401, null, { user: 'Пользователь не авторизирован'});
     }
   }
 

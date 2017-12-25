@@ -7,6 +7,8 @@ import { CONFIG_TYPE, CONFIG_OPTIONS_MONGO_TYPE, LOGGER_TYPE } from 'types';
 @injectable()
 export class DataBase implements IDataBase {
 
+  public types = mongoose.Types
+
   private db: mongoose.Connection;
 
   private readonly DB_CONFIG = this.config.get<CONFIG_OPTIONS_MONGO_TYPE>('db');

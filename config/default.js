@@ -15,14 +15,20 @@ module.exports = {
   secret: ['secret'],
   session: {
     key: 'sr:session',
+    store: MongooseStore
+  },
+  cookie: {
     maxAge: 86400000,
-    overwrite: true,
-    signed: true,
     httpOnly: true,
-    store: new MongooseStore({
-      model: 'Session',
-      expires: 60 * 60 * 24 * 3
-    })
+    domain: null,
+    path: '/',
+    secure: false
+  },
+  store: {
+    model: 'Session',
+    collection: 'sessions',
+    expires: 60 * 60 * 24 * 3,
+    connection: null // нужно переопределить при создании сессии
   },
   db: {
     host: 'mongo',
@@ -39,5 +45,11 @@ module.exports = {
       iterations: 10000,
       digest: 'sha512'
     }
+  },
+  validators: {
+    password: {
+      length: 6
+    },
+    email: /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   }
 }

@@ -14,6 +14,7 @@ export abstract class Controller implements IRoutable {
       }
 
       let { method, args } = this.routes[key];
+      args = args.map((arg: any, index: number) => typeof arg === 'function' ? arg.bind(this) : arg);
       router[method](...args);
     }
   }

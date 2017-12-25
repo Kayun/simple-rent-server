@@ -8,3 +8,5 @@ export default new CSRF({
   excludedMethods: [ 'GET', 'HEAD', 'OPTIONS' ],
   disableQuery: false
 })
+
+// export default async (ctx: any, next: any) => await next();
